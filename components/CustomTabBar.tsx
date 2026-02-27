@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { usePathname } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -13,51 +13,40 @@ export default function CustomTabBar({ state, navigation }: BottomTabBarProps) {
 
   return (
     <View style={styles.tabBar}>
-      {state.routes
-        .filter(
-          (route) =>
-            route.name === "(crops)" ||
-            route.name === "(library)" ||
-            route.name === "(clinic)" ||
-            route.name === "(market)" ||
-            route.name === "(profile)",
-        )
-        .map((route, index) => {
-          const isFocused = state.index === index;
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index;
 
-          // temporary icon mapping
-          const iconMap: Record<string, any> = {
-            "(crops)": "leaf",
-            "(library)": "book",
-            "(clinic)": "add-circle",
-            "(market)": "cart",
-            "(profile)": "person",
-          };
+        const iconMap: Record<string, any> = {
+          index: "bar-chart",
+          roas_tracker: "find-in-page",
+          roas_summary: "book",
+          profitability_formula: "calculate",
+        };
 
-          const iconName = iconMap[route.name] ?? "ellipse-outline";
+        const iconName = iconMap[route.name] ?? "ellipse-outline";
 
-          const onPress = () => {
-            navigation.navigate(route.name as never);
-          };
+        const onPress = () => {
+          navigation.navigate(route.name as never);
+        };
 
-          return (
-            <TouchableOpacity
-              key={route.key}
-              accessibilityRole="button"
-              style={styles.tabItem}
-              activeOpacity={0.8}
-              onPress={onPress}
-            >
-              <View style={[styles.iconWrapper, isFocused && styles.active]}>
-                <Ionicons
-                  name={iconName}
-                  size={26}
-                  color={isFocused ? Colors.white : Colors.green}
-                />
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            style={styles.tabItem}
+            activeOpacity={0.8}
+            onPress={onPress}
+          >
+            <View style={[styles.iconWrapper, isFocused && styles.active]}>
+              <MaterialIcons
+                name={iconName}
+                size={26}
+                color={isFocused ? "white" : "#3598DC"}
+              />
+            </View>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
@@ -94,8 +83,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   active: {
-    backgroundColor: "blue",
+    backgroundColor: "#3598DC",
     transform: [{ translateY: -20 }],
-    elevation: 8,
+    borderRadius: 20,
+    elevation: 4,
   },
 });

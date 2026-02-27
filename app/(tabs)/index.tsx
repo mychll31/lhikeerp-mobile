@@ -19,7 +19,7 @@ export default function Home() {
         />
       }
     >
-      <Text>Edit app/(tabs)/index.tsx to edit this screen.</Text>
+      <Text>Edit app/(tabs)/sales.tsx to edit this screen.</Text>
     </Body>
   );
 }

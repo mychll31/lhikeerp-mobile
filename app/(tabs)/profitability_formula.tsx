@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { RefreshControl, Text } from "react-native";
 
-export default function Roas_Tracker() {
+export default function Profitability_Formula() {
   const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
 
@@ -19,7 +19,9 @@ export default function Roas_Tracker() {
         />
       }
     >
-      <Text>Edit app/(tabs)/roas_tracker.tsx to edit this screen.</Text>
+      <Text>
+        Edit app/(tabs)/profitability_formula.tsx to edit this screen.
+      </Text>
     </Body>
   );
 }

@@ -19,7 +19,7 @@ export default function Roas_Summary() {
         />
       }
     >
-      <Text>Edit app/(tabs)/index.tsx to edit this screen.</Text>
+      <Text>Edit app/(tabs)/roas_summary.tsx to edit this screen.</Text>
     </Body>
   );
 }

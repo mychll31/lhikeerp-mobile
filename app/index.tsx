@@ -12,7 +12,11 @@ export default function Index() {
     <Body
       withoutDecoration
       noTabs
-      contentStyle={{ alignItems: "center", justifyContent: "center" }}
+      contentStyle={{
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#3d4f5c",
+      }}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}

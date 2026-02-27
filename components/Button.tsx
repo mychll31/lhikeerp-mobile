@@ -6,11 +6,13 @@ import {
   ImageSourcePropType,
   ImageStyle,
   InteractionManager,
+  Modal,
   Pressable,
   StyleProp,
   StyleSheet,
   Text,
   TextStyle,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from "react-native";
@@ -80,7 +82,7 @@ export default function Button({
 
     InteractionManager.runAfterInteractions(() => {
       if (actionMenu) {
-        setMenuState((prev) => !prev);
+        setMenuState((prev) => !prev); // toggle menu
       } else {
         onPress?.();
       }
@@ -88,12 +90,8 @@ export default function Button({
   };
 
   let computedPreset = preset;
-
-  if (disabled) {
-    computedPreset = "disabled";
-  } else if (preset === "default" && !title) {
-    computedPreset = "transparent";
-  }
+  if (disabled) computedPreset = "disabled";
+  else if (preset === "default" && !title) computedPreset = "transparent";
 
   return (
     <>
@@ -139,6 +137,48 @@ export default function Button({
           </Pressable>
         </Animated.View>
       </View>
+
+      {/* === Action Menu === */}
+      {actionMenu && (
+        <Modal
+          transparent
+          visible={menuState}
+          animationType="fade"
+          onRequestClose={() => setMenuState(false)}
+        >
+          <Pressable
+            style={styles.modalOverlay}
+            onPress={() => setMenuState(false)}
+          >
+            <View
+              style={[
+                styles.menuContainer,
+                { height: actionMenu.height || "auto" },
+                actionMenu.style,
+              ]}
+            >
+              {actionMenu.title && (
+                <Text style={styles.menuTitle}>{actionMenu.title}</Text>
+              )}
+
+              {actionMenu.content?.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.menuItem}
+                  onPress={() => {
+                    item.action();
+                    setMenuState(false);
+                  }}
+                >
+                  <Text style={styles.menuText}>{item.name}</Text>
+                </TouchableOpacity>
+              ))}
+
+              {actionMenu.children && actionMenu.children}
+            </View>
+          </Pressable>
+        </Modal>
+      )}
     </>
   );
 }
@@ -170,19 +210,37 @@ const styles = StyleSheet.create({
     color: "white",
     flexShrink: 1,
   },
-  menuItem: {
-    // backgroundColor: Colors.green,
-    width: "100%",
-    borderRadius: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
   },
-  menuText: {
+  menuContainer: {
+    width: 200,
+    backgroundColor: "#141A1E",
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  menuTitle: {
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
-    textAlign: "center",
+    marginBottom: 10,
+  },
+  menuItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+  },
+  menuText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
   },
 });
